@@ -1,7 +1,45 @@
 ﻿@page "/"
 
+@inject HttpClient Http
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+
+@if(Fusuuls != null)
+{
+    foreach (var item in Fusuuls)
+    {
+
+        <h2> @item.Huruufs.Count Huruufs</h2>
+        <h2>@item.Id @item.ArabicName</h2>
+
+        foreach (var it in item.Huruufs)
+        {
+            <h2>@it.Abyaats.Count Abayaats</h2>
+            <h2>@it.Id  @it.Name</h2>
+
+            foreach (var i in it.Abyaats)
+            {
+                <h2>@i.Id @i.Text</h2>
+            }
+        }
+    }
+}
+
+
+
+
+@code
+{
+    private List<Fasl> Fusuuls;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Fusuuls = await Http.GetFromJsonAsync<List<Fasl>>("sample-data/1.json");
+
+        // forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+    }
+}

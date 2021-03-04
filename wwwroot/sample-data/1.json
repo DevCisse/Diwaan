@@ -1,0 +1,66 @@
+[
+  {
+    "Id": 1,
+    "ArabicName": "Taysirul Wusul",
+    "Transliteration": "Trans",
+    "Huruufs": [
+      {
+        "Id": 1,
+        "Name": "Harful Alif",
+        "Abyaats": [
+          {
+            "Id": 1,
+            "Text": "Abal qalbu",
+            "HarfId": 1,
+            "FaslId": 1
+          },
+          {
+            "Id": 2,
+            "Text": "Abitu bi layli ",
+            "HarfId": 1,
+            "FaslId": 1
+          }
+        ],
+        "FaslId": 1
+      },
+      {
+        "Id": 2,
+        "Name": "Harful Baa",
+        "Abyaats": [
+          {
+            "Id": 1,
+            "Text": "text 1",
+            "HarfId": 2,
+            "FaslId": 1
+          },
+          {
+            "Id": 2,
+            "Text": "text 2",
+            "HarfId": 2,
+            "FaslId": 1
+          }
+        ],
+        "FaslId": 1
+      },
+      {
+        "Id": 3,
+        "Name": "Harful Geem",
+        "Abyaats": [
+          {
+            "Id": 1,
+            "Text": "text 1",
+            "HarfId": 3,
+            "FaslId": 1
+          },
+          {
+            "Id": 2,
+            "Text": "text 2",
+            "HarfId": 3,
+            "FaslId": 1
+          }
+        ],
+        "FaslId": 1
+      }
+    ]
+  }
+]
