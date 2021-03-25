@@ -8,6 +8,7 @@ namespace Diwaan.Models
     public class Harf
     {
         public int Id { get; set; }
+       // public string ArabicName { get; set; }
         public string Name { get; set; }
         public List<Bait> Abyaats { get; set; }
         public int FaslId { get; set; }

@@ -1,0 +1,74 @@
+﻿@page "/Huruufs/{id}"
+@inject HttpClient Http
+<h3>Huruufs</h3>
+
+
+<div>
+
+    <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12 mat-elevation-z5 index-row-item mdc-theme--surface">
+
+
+        @*@if (Fusuuls != null)
+            {
+
+                foreach (var item in Fusuuls)
+                {
+                    <h2> @item.ArabicName  </h2>
+
+                    foreach (var it in item.Huruufs.Where(x => x.FaslId == Convert.ToInt32(Id)))
+                    {
+
+                        <h5>
+                            <a href="HarfList/@it.Id" class="btn "> @it.Name</a>
+
+
+                            <Badge Class="site-badge-count-109" Count="@it.Abyaats.Count" Style="background-color: #52c41a" />
+                        </h5>
+
+                    }
+                }
+            }*@
+
+        @if (Fusuuls != null)
+        {
+            @foreach (var item in Fusuuls)
+            {
+                <ul class="list-group">
+
+                    @foreach (var it in item.Huruufs.Where(x => x.FaslId == Convert.ToInt32(Id)))
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <Badge Class="site-badge-count-109" Count="@it.Abyaats.Count" Style="background-color: #52c41a" />
+                            <a href="HarfList/@it.Id" class="btn "> <span> @it.Name</span> </a>
+
+                        </li>
+                    }
+
+                </ul>
+            }
+
+        }
+
+
+
+    </div>
+</div>
+
+
+
+
+@code {
+    [Parameter] public string Id { get; set; }
+
+    private List<Fasl> Fusuuls = new List<Fasl>();
+    private List<Harf> Harfs;
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Fusuuls = await Http.GetFromJsonAsync<List<Fasl>>("sample-data/1.json");
+
+    }
+
+}

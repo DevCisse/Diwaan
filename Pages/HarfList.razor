@@ -1,0 +1,57 @@
+﻿@page "/HarfList/{Id}"
+@inject HttpClient Http
+<h3>HarfList</h3>
+
+
+
+
+<div class="mat-layout-grid-cell mat-layout-grid-cell-span-12 mat-elevation-z5 index-row-item mdc-theme--surface mt-5">
+
+    @if (Fusuuls != null)
+    {
+        @foreach (var item in Fusuuls)
+        {
+            foreach (var it in item.Huruufs)
+            {
+                foreach (var i in it.Abyaats.Where(x => x.HarfId == Convert.ToInt32(Id)))
+                {
+
+                 
+                    <div class="card text-center "  >
+                        <div class="card-header" style="background-color:green;color:white">
+                            Featured
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Special title treatment</h5>
+                            <p class="card-text h5">@i.Text </p>
+                           
+                        </div>
+                        <div class="card-footer " style="background-color:green;color:white" >
+                            2 days ago
+                        </div>
+                    </div>
+                }
+            }
+        }
+    }
+</div>
+   
+
+
+    @code {
+        [Parameter] public string Id { get; set; }
+
+        private List<Fasl> Fusuuls;
+
+        string Name = string.Empty;
+
+
+        protected override async Task OnInitializedAsync()
+        {
+            Fusuuls = await Http.GetFromJsonAsync<List<Fasl>>("sample-data/1.json");
+
+
+
+        }
+
+    }

@@ -1,79 +1,179 @@
-﻿@inherits LayoutComponentBase
-@*<div class="page">
-        <div class="sidebar">
-            <NavMenu />
+﻿
+
+@inherits LayoutComponentBase
+@implements IDisposable
+@using System.Reflection
+@*@using MatBlazor.Demo.Models*@
+@using Microsoft.AspNetCore.Components
+@*@inject AppModel AppModel
+    @inject UserAppModel UserAppModel*@
+@inject IJSRuntime Js
+@using Diwaan.Shared
+<MatAnchorUtils></MatAnchorUtils>
+<MatAppBar Style="z-index: 100; background-color:green" Class="mat">
+    <MatAppBarRow>
+        <MatAppBarSection>
+            <MatIconButton Icon="menu" OnClick="@((e) => MenuButtonClicked())"></MatIconButton>
+            <MatHidden BreakPoint="@MatBreakpoint.XS" Direction="@MatHiddenDirection.Down">
+                <MatAppBarTitle>Diwaani</MatAppBarTitle>
+            </MatHidden>
+            <MatHidden BreakPoint="@MatBreakpoint.SM" Direction="@MatHiddenDirection.Up">
+                <MatAppBarTitle>MatBlazor</MatAppBarTitle>
+            </MatHidden>
+        </MatAppBarSection>
+        <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+            <MatHidden BreakPoint="@MatBreakpoint.XS" Direction="@MatHiddenDirection.Down">
+                <MatIconButton @ref="themeButton" Icon="invert_colors" OnClick="@OnClickButton">
+                </MatIconButton>
+                <MatIconButton Link="http://samprof.com" Target="_blank">
+                    <i class="fa fa-user-circle" aria-hidden="true"></i>
+                </MatIconButton>
+                <MatIconButton Link="https://github.com/SamProf/MatBlazor" Target="_blank">
+                    <i class="fa fa-github" aria-hidden="true"></i>
+                </MatIconButton>
+            </MatHidden>
+            <MatHidden BreakPoint="@MatBreakpoint.SM" Direction="@MatHiddenDirection.Up">
+                <MatIconButton Icon="more_vert" OnClick="@OpenSmallMenu" @ref="SmallMenuButton"></MatIconButton>
+                <MatMenu @ref="SmallMenu" style="z-index: 100;">
+                    <MatList>
+                        <MatListItem Href="http://samprof.com" target="_blank">
+                            Samprof.com
+                        </MatListItem>
+                        <MatListItem Href="https://github.com/SamProf/MatBlazor" target="_blank">
+                            Github
+                        </MatListItem>
+                        <MatListItem @ref="ThemeListItem" OnClick="@OnClickListItem">
+                            Select Theme
+                        </MatListItem>
+                    </MatList>
+                </MatMenu>
+            </MatHidden>
+            @*<MatMenu @ref="Menu" style="z-index: 100;">
+                    <ThemeColorSelector @bind-Value ="" ></ThemeColorSelector>
+                </MatMenu>*@
+        </MatAppBarSection>
+    </MatAppBarRow>
+</MatAppBar>
+
+<MatDrawerContainer Style="width: 100vw; height: 100vh;" Class="mat">
+
+    <MatHidden Breakpoint="@MatBreakpoint.SM" Direction="@MatHiddenDirection.Up" HiddenChanged="@ModelDrawerHiddenChanged">
+        <ChildContent>
+            <MatDrawer @bind-Opened="@_navMenuOpened" Mode="@MatDrawerMode.Modal">
+                <MatAppBarAdjust></MatAppBarAdjust>
+                <DemoDrawerContent></DemoDrawerContent>
+            </MatDrawer>
+        </ChildContent>
+        <ElseContent>
+            <MatDrawer @bind-Opened="@_navMenuOpened" Mode="@MatDrawerMode.Dismissible">
+                <MatAppBarAdjust></MatAppBarAdjust>
+                <DemoDrawerContent></DemoDrawerContent>
+            </MatDrawer>
+        </ElseContent>
+    </MatHidden>
+
+    <MatDrawerContent Class="mdc-theme--background">
+        <MatAppBarAdjust></MatAppBarAdjust>
+
+
+        <div class="body-wrapper m-5">
+            @Body
         </div>
+    </MatDrawerContent>
 
-        <div class="main">
-            <div class="top-row px-4">
-                <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-            </div>
-
-            <div class="content px-4">
-                @Body
-            </div>
-        </div>
-    </div>*@
+</MatDrawerContainer>
 
 
-<Layout>
-    <Sider Breakpoint="@BreakpointType.Lg"
-           CollapsedWidth="0"
-           OnBreakpoint="broken => {
-            Console.WriteLine(broken);
-        }"
-           OnCollapse="collapsed => {
-            Console.WriteLine(collapsed);
-        }">
-        <div class="logo" />
-        <Menu Theme="MenuTheme.Dark" Mode="MenuMode.Inline" DefaultSelectedKeys=@(new[]{"4"})>
-            <MenuItem Key="1">
-                <Icon Type="user" Theme="outline" />
-                <span class="nav-text">nav 1</span>
-            </MenuItem>
-            <MenuItem Key="2">
-                <Icon Type="video-camera" Theme="outline" />
-                <span class="nav-text">nav 2</span>
-            </MenuItem>
-            <MenuItem Key="3">
-                <Icon Type="upload" Theme="outline" />
-                <span class="nav-text">nav 3</span>
-            </MenuItem>
-            <MenuItem Key="4">
-                <Icon Type="user" Theme="outline" />
-                <span class="nav-text">nav 4</span>
-            </MenuItem>
-        </Menu>
-    </Sider>
-    <Layout>
-        <Header Class="site-layout-sub-header-background" Style="padding: 0;"></Header>
-        <Content Style=" margin: 24px 16px 0;">
-            <div class="site-layout-background" style="padding: 24px; min-height: 5000px">
+<MatSnackbar @bind-IsOpen="@lazySnackbarIsOpen">
+    <MatSnackbarContent>If you like this App, Give it a star on Github.</MatSnackbarContent>
+    <MatSnackbarActions>
+        @* <MatButton Raised="true">Star</MatButton> *@
+        <MatIconButton Icon="@MatIconNames.Stars" Link="https://github.com/BlazorComponents/MatBlazor" style="color: white;" target="_blank"></MatIconButton>
+    </MatSnackbarActions>
+
+</MatSnackbar>
+
+<MatPortalHost></MatPortalHost>
 
 
-                <BackTop></BackTop>
+@code {
 
-                content
-                @Body
+    BaseMatIconButton themeButton;
+    BaseMatListItem ThemeListItem;
+    BaseMatMenu Menu;
 
-            </div>
-        </Content>
-        <Footer Style="text-align: center;">Ant Design ©2018 Created by Ant UED</Footer>
-    </Layout>
-</Layout>
 
-<style>
-    #components-layout-demo-responsive .logo {
-        height: 32px;
-        background: rgba(255, 255, 255, 0.2);
-        margin: 16px;
+    [CascadingParameter]
+    MatTheme theme { get; set; }
+
+
+    public string ThemePrimary
+    {
+        get { return theme.Primary; }
+        set
+        {
+            theme.Primary = value;
+            theme.ThemeHasChanged();
+        }
     }
 
-    .site-layout-sub-header-background {
-        background: #fff;
+
+    protected void ModelDrawerHiddenChanged(bool hidden)
+    {
+        if (!hidden)
+        {
+            _navMenuOpened = false;
+        }
     }
 
-    .site-layout-background {
-        background: #fff;
+    public void OnClickButton(MouseEventArgs e)
+    {
+        _ = this.Menu.OpenAsync(themeButton.Ref);
     }
-</style>
+
+    public void OnClickListItem(MouseEventArgs e)
+    {
+        _ = this.Menu.OpenAsync(ThemeListItem.Ref);
+    }
+
+    bool lazySnackbarIsOpen = false;
+
+    bool _navMenuOpened = true;
+
+    void MenuButtonClicked()
+    {
+        _navMenuOpened = !_navMenuOpened;
+        this.StateHasChanged();
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        Task.Run(async () =>
+        {
+            await Task.Delay(TimeSpan.FromSeconds(5));
+            this.lazySnackbarIsOpen = true;
+            await InvokeAsync(() => { this.StateHasChanged(); });
+        });
+    }
+
+    private BaseMatIconButton SmallMenuButton;
+    private BaseMatMenu SmallMenu;
+
+    public void OpenSmallMenu(MouseEventArgs e)
+    {
+        _ = this.SmallMenu.OpenAsync(SmallMenuButton.Ref);
+    }
+
+    public void Dispose()
+    {
+    }
+
+}
