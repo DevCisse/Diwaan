@@ -67,7 +67,7 @@ jobs:
             # escape slashes second time for sed
             oldHash=$(echo "$oldHash" | sed 's;/;\\/;g')
             jsFile=$(echo -n "$jsFile" | sed "s;$oldHash;$newHash;g")
-          fi
+          
         done
         echo -n "$jsFile" > service-worker-assets.js
     
