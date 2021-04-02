@@ -1,3 +1,6 @@
+
+
+
 name: Deploy to GitHub Pages
 
 # Run workflow on every push to the master branch
@@ -21,11 +24,11 @@ jobs:
 
     # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
-      run: dotnet publish Diwaan.csproj -c Release -o release --nologo
+      run: dotnet publish TestDiwani.csproj -c Release -o release --nologo
 
-    # changes the base-tag in index.html from '/' to 'Diwaan' to match GitHub Pages repository subdirectory
-    - name: Change base-tag in index.html from / to Diwaan
-      run: sed -i 's/<base href="\/" \/>/<base href="\/Diwaan\/" \/>/g' release/wwwroot/index.html
+    # changes the base-tag in index.html from '/' to 'TestDiwani' to match GitHub Pages repository subdirectory
+    - name: Change base-tag in index.html from / to TestDiwani
+      run: sed -i 's/<base href="\/" \/>/<base href="\/TestDiwani\/" \/>/g' release/wwwroot/index.html
 
     # changes the base-tag in index.html from '/' to 'GitHubPagesDemo' to match GitHub Pages repository subdirectory
     - name: Fix service-worker-assets.js hashes
